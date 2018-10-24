@@ -9,9 +9,18 @@ class Bricks(Board):
     Define the necessary parameters and functions
     '''
     @staticmethod
-    def make_brick(x, y, l, r):
-        Board.main_board[x][y] = Board.main_board[x][y + 1] = ":"
-        Board.main_board[x + 1][y] = Board.main_board[x + 1][y + 1] = "1"
-        if y >= l and y <= r:
-            Board.board[x][y] = Board.board[x][y + 1] = ":"
-            Board.board[x + 1][y] = Board.board[x + 1][y + 1] = "1"
+    def make_brick(x_coor, y_coor, l_coor, r_coor):
+        '''
+        Make Bricks on board
+        '''
+        Board.main_board[x_coor][y_coor] = Board.main_board[x_coor][y_coor + 1] = ":"
+        Board.main_board[x_coor +
+                         1][y_coor] = Board.main_board[x_coor +
+                                                       1][y_coor +
+                                                          1] = "1"
+        if y_coor >= l_coor and y_coor <= r_coor:
+            Board.board[x_coor][y_coor] = Board.board[x_coor][y_coor + 1] = ":"
+            Board.board[x_coor +
+                        1][y_coor] = Board.board[x_coor +
+                                                 1][y_coor +
+                                                    1] = "1"

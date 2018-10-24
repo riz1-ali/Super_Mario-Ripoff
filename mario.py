@@ -1,3 +1,6 @@
+'''
+Module for Mario
+'''
 import signal
 import os
 import time
@@ -6,13 +9,14 @@ from getch import _getchlinux as getChar
 from alarmexception import AlarmException
 from enemy import Enemy
 from boss import Boss
-import subprocess
 
 b = Board()
 
 
 class Mario(Enemy, Boss):
-
+    '''
+    Class for Mario
+    '''
     head = 0
     legs = 0
     x_head = 24
@@ -36,13 +40,22 @@ class Mario(Enemy, Boss):
     jump_timer = 0
 
     def generate_mario(self):
+        '''
+        Create Mario on Board
+        '''
         b.board[self.x_head][self.head] = b.board[self.x_head][self.head + 1] = "H"
         b.board[self.y_legs][self.legs] = b.board[self.y_legs][self.legs + 1] = "L"
 
     def pos(self):
+        '''
+        Function for Mario's Position
+        '''
         return self.head
 
     def print_scolife(self):
+        '''
+        Function to print scoreboard
+        '''
         print("")
         print("SCORE:" + str(self.score))
         print("LIVES:" + str(self.lives))
@@ -50,20 +63,38 @@ class Mario(Enemy, Boss):
         print("")
 
     def call_boss(self, sign):
+        '''
+        Create Boss if he's in view
+        '''
         if b.left() <= self.boss_pos() and self.boss_pos() <= b.right():
             self.move_boss(b.left(), b.right(), sign)
 
     def stat(self):
+        '''
+        Return how much blocks the frame has moved
+        '''
         return self.frame_move
 
     def board_left(self):
+        '''
+        Return left index of board
+        '''
         return b.left()
 
     def move_mario(self):
+        '''
+        Move Mario on Board
+        '''
         def alarmhandler(signum, frame):
+            '''
+            Function for Error Handling
+            '''
             raise AlarmException
 
         def user_input(timeout=0.05):
+            '''
+            Take user input from terminal
+            '''
             signal.signal(signal.SIGALRM, alarmhandler)
             signal.setitimer(signal.ITIMER_REAL, timeout)
             try:
@@ -86,24 +117,26 @@ class Mario(Enemy, Boss):
 
         if Mario.jump_timer + 10 < time.time():
             Mario.jump_up = 1
+        
+        en_arr = [Mario.x_head,
+                  Mario.y_legs,
+                  Mario.head,
+                  Mario.legs,
+                  b.left(),
+                  b.right()]
 
         if Enemy().collision(
-            Mario.x_head,
-            Mario.y_legs,
-            Mario.head,
-            Mario.legs,
-            b.left(),
-                b.right()) and Mario.life_clock + 1 < time.time():
+                en_arr) and Mario.life_clock + 1 < time.time():
             Mario.life_clock = time.time()
             Mario.lives -= 1
 
         if Boss().boss_collision(
-            Mario.x_head,
+           [Mario.x_head,
             Mario.y_legs,
             Mario.head,
             Mario.legs,
             b.left(),
-                b.right()) and Mario.life_clock + 1 < time.time():
+            b.right()]) and Mario.life_clock + 1 < time.time():
             Mario.life_clock = time.time()
             Mario.lives -= 1
 

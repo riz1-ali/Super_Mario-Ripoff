@@ -1,10 +1,13 @@
 '''
 This module was used to take input from command line
 '''
+
+
 class _getchlinux:
     '''
     This class is used to define all the necessary functions required to take input
     '''
+
     def __init__(self):
         import tty
         import sys

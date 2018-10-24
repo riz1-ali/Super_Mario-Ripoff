@@ -26,8 +26,9 @@ for i in range(20, 400, 100):
     for j in range(0, 10):
         if j % 2:
             B.coin_make(25, i + j + 40)
-    Bricks().make_brick(18, i + 20, B.left(), B.right())
-    M.generate_enemy(25, i + 10, B.left(), B.right())
+    Bricks.make_brick(18, i + 20, B.left(), B.right())
+    en_arr = [25, i + 10, B.left(), B.right()]
+    M.generate_enemy(en_arr)
 FT = time.time()
 C = 0
 BFT = time.time()
